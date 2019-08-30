@@ -35,8 +35,6 @@ public class db_connection {
 		}
 	}
 	
-	
-	
 	public static void main(String args[]){  
 		Connection con = null;
 		Statement stmt = null;
@@ -50,8 +48,8 @@ public class db_connection {
 			if (con != null) {
                 System.out.println("connection success!");
             }
-			
-///////////////////////////////////////////////////////////////
+			stmt =  con.createStatement();
+///////////////////////////////////////////////////////
 			//processing the query
 //			stmt =  con.createStatement();
 //			sql = "SELECT * FROM aassssssssssMyhome";
@@ -71,39 +69,38 @@ public class db_connection {
 //                System.out.print("\n");
 //				
 //			}
-//			
+//
 ///////////////////////////////////////////////////////////////This is only for testing
 			
-		  stmt =  con.createStatement();
-		  sql =  "DROP TABLE IF EXISTS tableFortesting \n" +
-		  		  "CREATE TABLE tableFortesting ( \n" +
-				  "`s1` VARCHAR(255) DEFAULT NULL, \n" +
+//		  stmt =  con.createStatement();
+//		  sql =  "DROP TABLE IF EXISTS tableFortesting \n" +
+//		  		  "CREATE TABLE tableFortesting ( \n" +
+//				  "`s1` VARCHAR(255) DEFAULT NULL, \n" +
 //				  "`s2` VARCHAR(255) DEFAULT NULL, \n" +
 //				  "`s3` VARCHAR(255) DEFAULT NULL, \n" +
 //				  "`s4` VARCHAR(255) DEFAULT NULL, \n" +
 //				  "`s5` VARCHAR(255) DEFAULT NULL, \n" +
 //				  "`s6` VARCHAR(255) DEFAULT NULL, \n" +
 //				  "`s7` VARCHAR(255) DEFAULT NULL \n" +
-				") ENGINE=InnoDB DEFAULT CHARSET=utf8";
-		  System.out.println(sql);
-		  stmt.execute(sql);  
-		  //new table created
-		  //System.out.println("------------------------------------------");
+//				") ENGINE=InnoDB DEFAULT CHARSET=utf8";
+//		  System.out.println(sql);
+//		  stmt.execute(sql);  
+//		  //new table created
+//		  //System.out.println("------------------------------------------");
 		
-	    	//counting # of lines////////////////////
+	    	//Reading forom file and writing to the database
 	      BufferedReader reader;
-	      reader = new BufferedReader(new FileReader("filename")); ////stub filename
+	      reader = new BufferedReader(new FileReader("/Users/siyuanwang/Desktop/xingzhan/test.TXT")); ////stub filename
 	      String line = reader.readLine();
 	      int count = 0;
 	      while(line != null) {
 	    	  count ++;
 	    	  line = reader.readLine();
-	    	  
 	      }
 	      
-	      BufferedReader reader2 = new BufferedReader(new FileReader("fileName")); //stub filename
+	      BufferedReader reader2 = new BufferedReader(new FileReader("/Users/siyuanwang/Desktop/xingzhan/test.TXT")); //stub filename
 	      line = reader2.readLine();
-	      ArrayList<file> lines = new ArrayList<file> (count);
+	      ArrayList<file> lines = new ArrayList<file> (count); //file = seven breaked up strings
 	      
 	      for(int i = 0; i < count; i++) {
 	    	  String[] array = new String[7];
@@ -119,24 +116,25 @@ public class db_connection {
 	    	  temp.string6 = array [5];
 	    	  temp.string7 = array [6];
 	    	  lines.add(temp); 
-	    	  //now "lines" is storing a line of data. Starting processing a query
 	    	  
-	    	  sql =  "INSERT INTO tableFortesting VALUES(" + lines.get(i).string1 +
-	    			  ',' + lines.get(i).string2 + ',' + lines.get(i).string3 + ',' + lines.get(i).string4
-	    			  + ',' + lines.get(i).string5 + ',' + lines.get(i).string6 + ',' + lines.get(i).string7 + ')';
+	    	  sql =  "INSERT INTO table_for_testing(s1, s2, s3, s4, s5, s6, s7, modified_date) VALUES( '"
+	    			  + lines.get(i).string1 + "', '" +  lines.get(i).string2 + "', '" + lines.get(i).string3
+	    			  + "', '" + lines.get(i).string4 + "', '" + lines.get(i).string5 + "', '" + lines.get(i).string6
+	    			  + "', '" + lines.get(i).string7 + "', " + "NOW());";
 	    	  System.out.println(sql);
+	    
 	    	  stmt.execute(sql);
+	    	  //System.out.println("Writing success!");
 			  //adding data into the table
 			  
 	    	  line = reader2.readLine();
 	      }
-			
+    	  System.out.println("Done");
 			
 			if (con != null) {
 				con.close();
                 System.out.println("connection closed");
             }
-			
 			
 		} catch (Exception e) {
             // TODO Auto-generated catch block
