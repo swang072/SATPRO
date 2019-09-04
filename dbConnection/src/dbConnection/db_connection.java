@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class db_connection {
 	
-	static class oneLine {
+	static class OneLine {
 		String string1;
 		String string2;
 		String string3;
@@ -24,7 +24,7 @@ public class db_connection {
 		String string5;
 		String string6;
 		String string7;
-		public oneLine () {
+		public OneLine () {
 			String string1 = "";
 			String string2 = "";
 			String string3 = "";
@@ -74,21 +74,21 @@ public class db_connection {
 				String[] array = new String[7];
 				array = line.split(",");
 				//assigning values for the object
-				oneLine Row = new oneLine();
+				OneLine row = new OneLine();
 	    	  
-				Row.string1 = array [0]; ///process a query here      out.print(temp.string1 + ",");
-				Row.string2 = array [1];
-				Row.string3 = array [2]; 
-				Row.string4 = array [3]; 
-				Row.string5 = array [4];
-				Row.string6 = array [5];
-				Row.string7 = array [6];
+				row.string1 = array [0]; ///process a query here      out.print(temp.string1 + ",");
+				row.string2 = array [1];
+				row.string3 = array [2]; 
+				row.string4 = array [3]; 
+				row.string5 = array [4];
+				row.string6 = array [5];
+				row.string7 = array [6];
 				//lines.add(temp); 	
 	    	  
 				sql =  "INSERT INTO table_for_testing(s1, s2, s3, s4, s5, s6, s7, modified_date) VALUES( '"
-	    			  + Row.string1 + "', '" +  Row.string2 + "', '" + Row.string3
-	    			  + "', '" + Row.string4 + "', '" + Row.string5 + "', '" + Row.string6
-	    			  + "', '" + Row.string7 + "', " + "NOW());";
+	    			  + row.string1 + "', '" +  row.string2 + "', '" + row.string3
+	    			  + "', '" + row.string4 + "', '" + row.string5 + "', '" + row.string6
+	    			  + "', '" + row.string7 + "', " + "NOW());";
 				System.out.println(sql);
 	    
 				stmt.execute(sql);
