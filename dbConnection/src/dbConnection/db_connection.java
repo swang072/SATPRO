@@ -17,24 +17,6 @@ import java.util.ArrayList;
 
 public class db_connection {
 	
-//	public class OneLine {
-//		String string1;
-//		String string2;
-//		String string3;
-//		String string4;
-//		String string5;
-//		String string6;
-//		String string7;
-//		public OneLine () {
-//			String string1 = "";
-//			String string2 = "";
-//			String string3 = "";
-//			String string4 = "";
-//			String string5 = "";
-//			String string6 = "";
-//			String string7 = "";
-//		}
-//	}
 	
 	private static boolean isNotEmpty(String s) {
 		return s != null && s.length() > 0;
@@ -48,6 +30,33 @@ public class db_connection {
 		System.out.println("------------------ Time used " + total + "s ------------------");
 		
 	}
+	
+	private static void readingData(String nameOfTable, String column, String condition, Connection con) throws SQLException {
+		String sql = "SELECT " + column + " FROM " + nameOfTable + " WHERE " + condition;
+		Statement stmt = con.createStatement();
+		ResultSet rs = stmt.executeQuery(sql);
+		while(rs.next()){
+            String s6 = rs.getString("s6");
+            
+            System.out.println("s6: " + s6);
+            System.out.println("------------------ Data Retriving Done! ------------------");
+        }
+	}
+	private static void deletingData(String nameOfTable, String condition, Connection con) throws SQLException {
+		String sql = "DELETE FROM " + nameOfTable + " WHERE " + condition;
+		Statement stmt = con.createStatement();
+		stmt.execute(sql);
+		System.out.println("------------------ Deleting Done! ------------------");
+	}
+	
+	private static void updatingData(String nameOfTable, String column, String condition, Connection con) throws SQLException {
+		String sql = "UPDATE " + nameOfTable + " SET " + column + " = '    new content   '" + " WHERE " + condition;
+		Statement stmt = con.createStatement();
+		stmt.execute(sql);
+		System.out.println("------------------ Updating Done! ------------------");
+		
+	}
+	
 	private static ArrayList<String> parse() {
 		BufferedReader reader = null;
 		ArrayList<String> lines = new ArrayList<String>();
@@ -70,23 +79,10 @@ public class db_connection {
 				e.printStackTrace();
 			}
 		}
-		logCostTime(startTime);
+		logCostTime(startTime);			 //print out time used for file reading
 		return lines;
 	}
-//	private static OneLine newObject(String line) {
-//		String[] array = line.split(",");
-//		
-//		OneLine row = new OneLine();
-//		row.string1 = array [0]; ///process a query here
-//		row.string2 = array [1];
-//		row.string3 = array [2]; 
-//		row.string4 = array [3]; 
-//		row.string5 = array [4];
-//		row.string6 = array [5];
-//		row.string7 = array [6];
-//		
-//		return row;
-//	}
+
 	
 	private static final String file_path = "/Users/siyuanwang/Desktop/xingzhan/test.TXT";
 	
@@ -107,17 +103,7 @@ public class db_connection {
 			if (con == null)
 				throw new java.lang.NullPointerException("connection is null");
 			
-	    	//Reading from file and writing to the database
-			//reader = new BufferedReader(new FileReader(file_path)); ////stub filename
-//			String line = reader.readLine();
-//			int count = 0;
-//			while (line != null) {
-//				count ++;
-//				line = reader.readLine();
-//			}
-//			reader.close();
-	      
-			//reader = new BufferedReader(new FileReader(file_path)); //stub filename
+			
 			ps = con.prepareStatement(sql);
 			ArrayList<String> lines = parse();
 			long startTime = System.currentTimeMillis();
@@ -126,18 +112,10 @@ public class db_connection {
 				row.setValue(ps);
 				ps.executeUpdate();
 			}
-			//long startTime = System.currentTimeMillis();
-			
-			
-//			String line = reader.readLine();
-//			while (isNotEmpty(line)) {
-//				OneLine row = new OneLine(line);
-//				row.setValue(ps);
-//				ps.executeUpdate();
-//				line = reader.readLine();
-//			}
+
 						
-			logCostTime(startTime);
+			logCostTime(startTime);		//print out time used for normal writing
+			
 			
 			con.setAutoCommit(false);
 
@@ -148,53 +126,39 @@ public class db_connection {
 				ps.addBatch();
 			}
 			
-//			while (isNotEmpty(line)) {
-//				OneLine row = new OneLine(line);
-//				row.setValue(ps);
-//				ps.addBatch();
-//				line = reader.readLine();
-//			}
+
 			ps.executeBatch();
 			
-			logCostTime(startTime);
+			logCostTime(startTime);  //print out time used for batching
+			
+			
 			
 			System.out.println("------------------ File Writing Done! ------------------");
+			
+			
 			
 			
 			//////////////////////////////////////////search in the database///////////////////////////////
 			String column = "s6";
 			String nameOfTable = "table_for_testing";
-			String condition = "id = 10006";
+			String condition = "id = 10001";
 			String sql2;
-			sql2 = "SELECT " + column + " FROM " + nameOfTable + " WHERE " + condition;
-			//stmt.addBatch(sql);
-			stmt =  con.createStatement();
-			rs = stmt.executeQuery(sql2);
-			while(rs.next()){
-                String s6 = rs.getString("s6");
-                
-                System.out.println("s6: " + s6);
-                System.out.println("------------------ Data Retriving Done! ------------------");
-            }
+			
+			readingData(nameOfTable, column, condition, con);
+			
+			
 			//////////////////////////////////////////deleting from the database///////////////////////////////
-			condition = "id = 10000";
-			sql2 = "DELETE FROM " + nameOfTable + " WHERE " + condition;
-			stmt.execute(sql2);
-			System.out.println("------------------ Deleting Done ------------------");
+			//stmt =  con.createStatement();
+			condition = "id = 10006";
+			deletingData(nameOfTable, condition, con);
+			
+			
 			//////////////////////////////////////////update in the database///////////////////////////////	
-			condition = "id = 10005";
-			sql2 = "UPDATE " + nameOfTable + " SET " + column + " = '    new content   '" + " WHERE " + condition;
-			stmt.execute(sql2);
-//////////////////////////////////
-			sql2 = "SELECT " + column + " FROM " + nameOfTable + " WHERE " + condition;
-			//stmt.addBatch(sql);
-			rs = stmt.executeQuery(sql2);
-			while(rs.next()){
-                String s6 = rs.getString("s6");
-                
-                System.out.println("s6: " + s6);
-                System.out.println("------------------ Data Updating Done! ------------------");
-            }
+			condition = "id = 10005";	//updating id. Update and read from a new row
+
+			updatingData(nameOfTable, column, condition, con);
+
+			readingData(nameOfTable, column, condition, con);
 			
 			
 			
