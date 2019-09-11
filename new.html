@@ -1,0 +1,128 @@
+<html>
+	<head>
+		<title>test</title>
+	</head>
+	<body>
+
+
+	<div id = "form">
+		<form>
+			s1: <input type="text" name="Input1" value="abc"><br>
+			s2: <input type="text" name="Input2"><br>
+			s3: <input type="text" name="Input3"><br>
+			s4: <input type="text" name="Input4"><br>
+			s5: <input type="text" name="Input5"><br>
+			s6: <input type="text" name="Input6"><br>
+			s7: <input type="text" name="Input7"><br>
+		</form>
+
+		<select> 
+			<option value="insert">Insert</option>
+			<option value="delete">Delete</option>
+			<option value="update">Update</option>
+		</select> 
+
+		<!-- <input type="Submit" value="add"> -->
+		<button id ="add">add</button>
+	</div>
+
+	<p>
+		<table style="width:50%">
+		  <tr>
+		    <th>s1</th> 
+		    <th>s2</th>
+		    <th>s3</th>
+		    <th>s4</th> 
+		    <th>s5</th>
+		    <th>s6</th>
+		    <th>s7</th> 
+
+
+		  </tr>
+
+		  <tr>
+		    <th>!AIVDM</th> 	
+		    <th>1</th>
+		    <th>1</th>
+		    <th></th> 
+		    <th>A</th> 
+		    <th>B6:VsRh0B27iNQ4TbA0H;wq3QP06</th>
+		    <th>0*44</th>
+		    <th><input type="Submit" value="delete"><th>
+		  </tr>
+		
+
+		  <tr>
+		    <th>!AIVDM</th> 
+		    <th>1</th>
+		    <th>1</th>
+		    <th></th> 
+		    <th>B</th> 
+		    <th>16:b8?P00L`O72bBBw78K6gp0000</th>
+		    <th>0*3B</th>
+		    <th><input type="Submit" value="delete"><th>
+		  </tr>
+
+		  <tr id = "aaaa">
+		    <th>!AIVDM</th> 
+		    <th>1</th>
+		    <th>1</th>
+		    <th></th> 
+		    <th>B</th> 
+		    <th>B6:bG8h09J7jO:4TpV21EWN021Mk</th>
+		    <th>0*79</th>
+		    <th><input type="Submit" value="delete" onclick = "aaaa.remove()"><th>
+		  </tr>
+		</table>
+	</p>
+
+
+	</body>
+
+	<script>
+		  var oInput = document.getElementById("form").getElementsByTagName("input");
+           var oBut = document.getElementById("add");
+           var oTable = document.getElementsByTagName("table")[0];
+           var tBodies = oTable.tBodies[0];
+           var i = 0; //id of trs in the table
+
+           //2.点击添加到表格，获取输入框中的内容，在表格中添加一行
+            oBut.onclick = function () {
+                //1.创建行
+                var tr = document.createElement("tr");
+                tr.id = "aivdm" + i;
+
+
+                //3.添加单元格
+                
+                tr.appendChild(createNode("th", oInput[0].value));
+                tr.appendChild(createNode("th", oInput[1].value));
+                tr.appendChild(createNode("th", oInput[2].value));
+                tr.appendChild(createNode("th", oInput[3].value));
+                tr.appendChild(createNode("th", oInput[4].value));
+                tr.appendChild(createNode("th", oInput[5].value));
+                tr.appendChild(createNode("th", oInput[6].value));
+                tr.appendChild(createNode("th", "<input type=\"Submit\" value=\"delete\" onclick = \"aivdm" + i + ".remove()\">"));
+
+  				//alert(tr.innerHTML);
+                //2.添加行到表格
+                tBodies.appendChild(tr);
+                i++;
+                
+            }
+
+            function deleteNode(element,text) {
+                var td = document.createElement(element);
+                td.innerHTML = text;
+                return td;
+            }
+
+            function createNode(element,text) {
+                var td = document.createElement(element);
+                td.innerHTML = text;
+                return td;
+            }
+
+
+	</script>
+</html>
